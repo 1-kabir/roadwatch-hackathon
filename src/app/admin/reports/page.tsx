@@ -136,7 +136,13 @@ export default function AdminReportsPage() {
               </div>
               <span className="text-xs text-gray-500 flex items-center gap-1">
                 <Clock className="w-4 h-4" />
-                {new Date(report.createdAt).toLocaleString()}
+                {new Intl.DateTimeFormat('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                }).format(new Date(report.createdAt))}
               </span>
             </div>
 

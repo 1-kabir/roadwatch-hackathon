@@ -11,18 +11,18 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "RoadWatch",
   description: "Efficiently monitor and report traffic issues with RoadWatch.",
+  themeColor: '#000000',
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable} antialiased`}>
-        {children}
-      </body>
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+        <meta name="theme-color" content="#000000" />
+      </head>
+      <body>{children}</body>
     </html>
   );
 }
