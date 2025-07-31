@@ -5,7 +5,7 @@ export default function DashboardHome() {
   return (
     <Preset>
       <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white rounded-xl p-6 shadow-md">
-        <h1 className="text-3xl font-bold">Hello, John!</h1>
+        <h1 className="text-3xl font-bold">Hey You!</h1>
         <p className="mt-1 text-white/90 text-sm">Welcome back to RoadWatch</p>
       </div>
 
@@ -13,7 +13,7 @@ export default function DashboardHome() {
         <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200 flex items-start gap-4">
           <MapPin className="text-indigo-600 w-6 h-6 mt-1" />
           <div>
-            <h2 className="text-lg font-semibold text-black">There are 12 road issues around you!</h2>
+            <h2 className="text-lg font-semibold text-black">There are 12 road issues reported!</h2>
             <p className="text-sm text-gray-600 mt-1">Stay alert and avoid high-risk areas nearby.</p>
           </div>
         </div>
@@ -40,7 +40,7 @@ export default function DashboardHome() {
         </ul>
       </div>
 
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="mt-6 grid grid-cols-1 gap-4">
         <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200 flex items-start gap-4">
           <ThumbsUp className="text-green-600 w-6 h-6 mt-1" />
           <div>
@@ -49,7 +49,7 @@ export default function DashboardHome() {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+        {/*<div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
           <div className="flex items-start gap-3 mb-2">
             <HelpCircle className="text-blue-600 w-6 h-6 mt-1" />
             <h2 className="text-lg font-semibold text-black">Do these issues still exist?</h2>
@@ -59,7 +59,7 @@ export default function DashboardHome() {
             <li>Broken signal at 4th Ave</li>
             <li>Blocked lane near Elm Park</li>
           </ul>
-        </div>
+        </div>*/}
       </div>
     </Preset>
   );

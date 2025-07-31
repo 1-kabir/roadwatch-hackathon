@@ -11,9 +11,9 @@ export default function Home() {
       {/* Hero */}
       <section className="py-24 px-6 text-center">
         <Preset>
-          <h1 className="text-5xl font-bold mb-4">RoadWatch</h1>
+          <h1 className="text-5xl font-bold mb-4">Traffic? What's that?</h1>
           <p className="text-lg text-gray-700 max-w-xl mx-auto">
-            Real-time traffic issue reporting and route optimization powered by AI.
+            RoadWatch allows real-time traffic issue reporting for people like you who hate traffic.
           </p>
         <button className="mt-7 bg-black text-white border border-black px-6 py-3 rounded-3xl font-semibold hover:bg-white hover:text-black duration-250 cursor-pointer transition">
         Get Started

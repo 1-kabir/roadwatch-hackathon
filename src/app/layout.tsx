@@ -11,7 +11,6 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "RoadWatch",
   description: "Efficiently monitor and report traffic issues with RoadWatch.",
-  themeColor: '#000000',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
