@@ -1,19 +1,21 @@
 'use client';
 
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabaseClient";
 import Preset from '@/components/Preset';
-import { 
-  Mail,
-  Lock,
-  User,
-  MapPin,
-  ThumbsUp,
-  ThumbsDown,
-  AlertTriangle,
-  CheckCircle,
-  LogOut,
+import {
+  Mail, Lock, User, MapPin, ThumbsUp, ThumbsDown,
+  AlertTriangle, CheckCircle, LogOut,
 } from 'lucide-react';
 
 export default function SettingsPage() {
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push("/login");
+  };
+
   return (
     <Preset>
       {/* Account Section */}
@@ -79,19 +81,6 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      {/* Additional Info */}
-      <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200 space-y-3 mb-6">
-        <div className="flex items-center gap-2">
-          <CheckCircle className="text-blue-600 w-5 h-5" />
-          <h2 className="text-lg font-semibold text-black">Profile Summary</h2>
-        </div>
-        <ul className="text-sm text-gray-700 list-disc list-inside space-y-1 mt-1">
-          <li>Member since: <span className="text-black font-medium">January 2024</span></li>
-          <li>Last active: <span className="text-black font-medium">1 hour ago</span></li>
-          <li>Verification: <span className="text-green-600 font-medium">Verified</span></li>
-        </ul>
-      </div>
-
       {/* Logout */}
       <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
         <div className="flex items-center justify-between">
@@ -100,7 +89,7 @@ export default function SettingsPage() {
             Logout
           </div>
           <button
-            onClick={() => alert('Logging out...')}
+            onClick={handleLogout}
             className="text-sm text-red-600 hover:text-red-600/60 duration-250 cursor-pointer"
           >
             Confirm

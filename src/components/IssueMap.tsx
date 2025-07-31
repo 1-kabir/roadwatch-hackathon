@@ -1,44 +1,52 @@
-// src/components/IssueMap.tsx
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import "leaflet-defaulticon-compatibility";
-import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
+import { MapContainer, TileLayer, Marker, useMapEvent } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import 'leaflet-defaulticon-compatibility';
+import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
 
 interface Issue {
   id: string;
   position: [number, number];
-  description: string;
   type: string;
-  location: string;
-  timestamp: string;
-  upvotes: number;
-  downvotes: number;
+  description: string;
+  location?: string;
+  landmark?: string;
+  timestamp?: string;
+  upvotes?: number;
+  downvotes?: number;
+}
+
+function MapClickHandler({ onMapClick }: { onMapClick?: (latlng: [number, number]) => void }) {
+  useMapEvent('click', (e) => {
+    if (onMapClick) onMapClick([e.latlng.lat, e.latlng.lng]);
+  });
+  return null;
 }
 
 export default function IssueMap({
   issues,
   userLocation,
   onSelect,
+  onMapClick,
 }: {
   issues: Issue[];
   userLocation: [number, number] | null;
   onSelect: (issue: Issue) => void;
+  onMapClick?: (latlng: [number, number]) => void;
 }) {
   return (
     <MapContainer
       center={userLocation || [28.6139, 77.209]}
-      zoom={12}
+      zoom={13}
       scrollWheelZoom
-      className="h-full w-full z-0"
+      className="h-full w-full"
     >
       <TileLayer
-        attribution='&copy; <a href="https://osm.org">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; OpenStreetMap contributors'
+        url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
       />
-
+      <MapClickHandler onMapClick={onMapClick} />
       {issues.map((issue) => (
         <Marker
           key={issue.id}
@@ -46,12 +54,7 @@ export default function IssueMap({
           eventHandlers={{ click: () => onSelect(issue) }}
         />
       ))}
-
-      {userLocation && (
-        <Marker position={userLocation}>
-            <Popup>You are here!</Popup>
-        </Marker>
-      )}
+      {userLocation && <Marker position={userLocation} />}
     </MapContainer>
   );
 }

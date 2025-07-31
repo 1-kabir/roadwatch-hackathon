@@ -17,22 +17,26 @@ export default function SignupPage() {
   const router = useRouter();
 
   const handleSignup = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
+  e.preventDefault();
+  setLoading(true);
+  setError("");
 
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
+  const { error } = await supabase.auth.signUp({ email, password });
 
-    if (error) {
-      setError(error.message);
-    } else {
-      router.push("/login");
-    }
-
+  if (error) {
+    setError(error.message);
     setLoading(false);
+    return;
+  }
+
+  await fetch("/api/users/create", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+
+  router.push("/login");
+  setLoading(false);
   };
 
   return (
