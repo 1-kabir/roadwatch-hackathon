@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import Preset from '@/components/Preset';
 import {
@@ -10,10 +11,37 @@ import {
 
 export default function SettingsPage() {
   const router = useRouter();
+  const [fullName, setFullName] = useState("John Doe");
+  const [location, setLocation] = useState("Lat: 22.54432, Lng: 88.37130");
+  const [geoLoading, setGeoLoading] = useState(false);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
     router.push("/login");
+  };
+
+  const handleSave = () => {
+    // No actual save functionality, just a placeholder
+    alert("Full name saved!");
+  };
+
+  const handleChangeLocation = () => {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser.");
+      return;
+    }
+    setGeoLoading(true);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const { latitude, longitude } = pos.coords;
+        setLocation(`Lat: ${latitude.toFixed(5)}, Lng: ${longitude.toFixed(5)}`);
+        setGeoLoading(false);
+      },
+      () => {
+        alert("Unable to retrieve your location.");
+        setGeoLoading(false);
+      }
+    );
   };
 
   return (
@@ -30,9 +58,16 @@ export default function SettingsPage() {
               <label className="block text-gray-500 mb-1">Full Name</label>
               <input
                 type="text"
-                defaultValue="John Doe"
+                value={fullName}
+                onChange={e => setFullName(e.target.value)}
                 className="w-full bg-gray-50 border border-gray-300 rounded-md px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
               />
+              <button
+                onClick={handleSave}
+                className="mt-2 px-4 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition text-sm"
+              >
+                Save
+              </button>
             </div>
             <div>
               <label className="block text-gray-500 mb-1">Email</label>
@@ -77,7 +112,14 @@ export default function SettingsPage() {
             <MapPin className="text-green-600 w-5 h-5" />
             <h2 className="text-lg font-semibold text-black">Location</h2>
           </div>
-          <p className="text-sm text-gray-700">Sector 45, Gurgaon, India</p>
+          <p className="text-sm text-gray-700 mb-2">{location}</p>
+          <button
+            onClick={handleChangeLocation}
+            className="px-4 py-1 bg-green-600 text-white rounded hover:bg-green-700 transition text-sm"
+            disabled={geoLoading}
+          >
+            {geoLoading ? "Detecting..." : "Change my Location"}
+          </button>
         </div>
       </div>
 
@@ -96,6 +138,6 @@ export default function SettingsPage() {
           </button>
         </div>
       </div>
-    </Preset>
+      </Preset>
   );
-}
+}   

@@ -1,6 +1,6 @@
 'use client';
 
-import { MapContainer, TileLayer, Marker, useMapEvent } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMapEvent } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
@@ -37,7 +37,7 @@ export default function IssueMap({
 }) {
   return (
     <MapContainer
-      center={userLocation || [28.6139, 77.209]}
+      center={userLocation || [22.5744, 88.3629]}
       zoom={13}
       scrollWheelZoom
       className="h-full w-full"
@@ -54,7 +54,11 @@ export default function IssueMap({
           eventHandlers={{ click: () => onSelect(issue) }}
         />
       ))}
-      {userLocation && <Marker position={userLocation} />}
+      {userLocation && (
+        <Marker position={userLocation}>
+          <Popup>You are here!</Popup>
+        </Marker>
+      )}
     </MapContainer>
   );
 }

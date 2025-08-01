@@ -15,40 +15,47 @@ import {
 } from 'lucide-react';
 import Preset from '@/components/Preset';
 import { cn } from '@/lib/utils';
+import dynamic from "next/dynamic";
+
+// Dynamically import TwoMarkerMap with SSR disabled
+const TwoMarkerMap = dynamic(() => import('@/components/TwoMarkerMap'), { ssr: false });
 
 const mockAdminReports = [
   {
     id: 1,
-    landmark: 'Main Street Bridge',
-    coordinates: '28.6139° N, 77.2090° E',
-    location: 'New Delhi, India',
-    type: 'Pothole',
-    upvotes: 14,
-    downvotes: 2,
-    createdAt: '2025-07-30T14:32:00Z',
-    status: 'Resolved',
+    landmark: 'The Heritage School',
+    coordinates: '22.4752° N, 88.4176° E',
+    location: 'Kolkata, India',
+    type: 'Large Pothole',
+    upvotes: 23,
+    downvotes: 1,
+    createdAt: '2025-07-30T09:15:00Z',
+    status: 'Unresolved',
+    position: [22.4752, 88.4176],
   },
   {
     id: 2,
-    landmark: 'Sector 22 Crossing',
-    coordinates: '28.5355° N, 77.3910° E',
-    location: 'Noida, India',
-    type: 'Broken Traffic Light',
-    upvotes: 8,
-    downvotes: 1,
-    createdAt: '2025-07-30T12:15:00Z',
-    status: 'Unresolved',
+    landmark: 'Don Bosco School, Park Circus',
+    coordinates: '22.5411° N, 88.3706° E',
+    location: 'Park Circus, Kolkata, India',
+    type: 'Broken Street Light',
+    upvotes: 12,
+    downvotes: 0,
+    createdAt: '2025-07-29T20:45:00Z',
+    status: 'Resolved',
+    position: [22.5411, 88.3706],
   },
   {
     id: 3,
-    landmark: 'Near Elm Park Mall',
-    coordinates: '28.4595° N, 77.0266° E',
-    location: 'Gurgaon, India',
+    landmark: 'Sector 22 Crossing',
+    coordinates: '28.5355° N, 77.3910° E',
+    location: 'Noida, India',
     type: 'Road Blockage',
-    upvotes: 5,
-    downvotes: 0,
-    createdAt: '2025-07-29T18:45:00Z',
+    upvotes: 8,
+    downvotes: 2,
+    createdAt: '2025-07-28T16:30:00Z',
     status: 'Unresolved',
+    position: [28.5355, 77.3910],
   },
 ];
 
@@ -56,6 +63,7 @@ export default function AdminReportsPage() {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<'All' | 'Resolved' | 'Unresolved'>('All');
   const [reports, setReports] = useState(mockAdminReports);
+  const [expandedId, setExpandedId] = useState<number | null>(null);
 
   const handleStatusChange = (id: number, status: 'Resolved' | 'Unresolved') => {
     setReports((prev) =>
@@ -164,9 +172,9 @@ export default function AdminReportsPage() {
                 </span>
                 <button
                   className="flex items-center gap-1 text-blue-600 hover:text-blue-600/60 duration-250 cursor-pointer"
-                  onClick={() => alert(`Map popover for ${report.landmark}`)}
+                  onClick={() => setExpandedId(expandedId === report.id ? null : report.id)}
                 >
-                  <Eye className="w-4 h-4" /> View on Map
+                  <Eye className="w-4 h-4" /> {expandedId === report.id ? "Hide Map" : "View on Map"}
                 </button>
               </div>
 
@@ -195,6 +203,13 @@ export default function AdminReportsPage() {
                 </button>
               </div>
             </div>
+
+            {/* Map snippet */}
+            {expandedId === report.id && (
+              <div className="mt-4 h-64 w-full rounded-lg overflow-hidden border border-gray-200">
+                <TwoMarkerMap coord={report.position as [number, number]} />
+              </div>
+            )}
           </div>
         ))}
       </div>

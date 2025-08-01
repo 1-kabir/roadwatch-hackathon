@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from "next/navigation";
 import Preset from '@/components/Preset';
 import {
   User,
@@ -12,6 +13,13 @@ import {
 } from 'lucide-react';
 
 export default function AdminSettingsPage() {
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await fetch("/api/admin-logout", { method: "POST" });
+    router.push("/adminlogin");
+    window.location.reload();
+  };
   return (
     <Preset>
       {/* Admin Info */}
@@ -67,7 +75,7 @@ export default function AdminSettingsPage() {
             Logout
           </div>
           <button
-            onClick={() => alert('Logging out...')}
+            onClick={handleLogout}
             className="text-sm text-red-600 hover:text-red-600/60 duration-250 cursor-pointer"
           >
             Confirm

@@ -128,13 +128,13 @@ export default function MapPage() {
                 </p>
               )}
               <button
-                className="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+                className="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-600/80 duration-250 transition cursor-pointer"
                 onClick={handleCreate}
               >
                 Save Issue
               </button>
               <button
-                className="mt-2 px-4 py-1 text-sm text-gray-600 hover:underline"
+                className="mt-2 px-4 py-1 text-sm text-gray-600 hover:text-gray-800/60 duration-250 cursor-pointer"
                 onClick={() => {
                   setCreating(false);
                   setNewPos(null);
@@ -161,7 +161,7 @@ export default function MapPage() {
           )}
           {!creating && (
             <button
-              className="mt-4 w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              className="mt-4 w-full py-2 bg-black cursor-pointer text-white rounded hover:bg-black/80 duration-250"
               onClick={() => {
                 setCreating(true);
                 setSelectedIssue(null);
@@ -200,7 +200,16 @@ export default function MapPage() {
                 : []),
             ]}
             userLocation={userLocation}
-            onSelect={(i) => setSelectedIssue(i)}
+            onSelect={(i) =>
+              setSelectedIssue({
+                ...i,
+                location: i.location ?? '',
+                landmark: i.landmark ?? '',
+                timestamp: i.timestamp ?? '',
+                upvotes: i.upvotes ?? 0,
+                downvotes: i.downvotes ?? 0,
+              })
+            }
             onMapClick={handleMapClick}
           />
         </div>
